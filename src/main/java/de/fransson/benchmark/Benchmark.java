@@ -20,7 +20,7 @@ public class Benchmark {
 
     public static final String SIZE_KEY = "size";
 
-    public static final int DEFAULT_SIZE = 1_000_000;
+    public static final int DEFAULT_SIZE = 5_000_000;
 
     @Nonnull
     private final DataGenerator generator;
@@ -32,12 +32,13 @@ public class Benchmark {
     }
 
     public void run(@Nonnull Sorter<String> algorithm) {
-        List<String> data = generator.generateRandomList();
-
         Class<?> algorithmClass = algorithm.getClass();
-        int size = data.size();
         String name = algorithmClass.getSimpleName();
-        log.info("Sorting {} elements with {} ...", () -> format("%,d", size), () -> name);
+        log.info("\n\n########### --- {} --- ###########", name);
+
+        List<String> data = generator.generateRandomList();
+        int size = data.size();
+        log.info("run - Sorting {} elements with {} ...", () -> format("%,d", size), () -> name);
 
         ZonedDateTime start = ZonedDateTime.now();
 
@@ -47,8 +48,8 @@ public class Benchmark {
         Duration duration = Duration.between(start, end);
 
         int sortedSize = sortedList.size();
-        log.info("Sorted list size: {}", () -> format("%,d", sortedSize));
-        log.info("Sorting duration: {}", duration);
+        log.info("run - Sorted list size: {}", () -> format("%,d", sortedSize));
+        log.info("run - Sorting duration: {}", duration);
     }
 
 }
