@@ -48,6 +48,7 @@ public class Benchmark {
         Duration duration = Duration.between(start, end);
 
         int sortedSize = sortedList.size();
+        log.info("run - First element of sorted list: '{}'.", sortedList.get(0));
         log.info("run - Sorted list size: {}", () -> format("%,d", sortedSize));
         log.info("run - Sorting duration: {}", duration);
     }
