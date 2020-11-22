@@ -39,6 +39,7 @@ public class DataGenerator {
         Duration duration = Duration.between(start, end);
 
         log.info("generateRandomList - {} data elements built in {}.", () -> format("%,d", size), () -> duration);
+        log.info("generateRandomList - First list element: '{}'.", data.get(0));
         return data;
     }
 
