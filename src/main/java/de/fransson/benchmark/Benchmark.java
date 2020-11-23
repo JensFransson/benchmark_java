@@ -14,43 +14,39 @@ import static java.lang.String.format;
  * @author Jens Fransson
  * @since 21.11.2020
  */
-public class Benchmark {
+public class Benchmark<T extends Comparable<T>> {
 
     private static final Logger log = LogManager.getLogger(Benchmark.class);
 
-    public static final String SIZE_KEY = "size";
-
-    public static final int DEFAULT_SIZE = 5_000_000;
-
     @Nonnull
-    private final DataGenerator generator;
+    private final ListGenerator<T> generator;
 
 
-    public Benchmark() {
-        int size = Integer.getInteger(SIZE_KEY, DEFAULT_SIZE);
-        generator = new DataGenerator(size);
+    public Benchmark(@Nonnull ListGenerator<T> generator) {
+        this.generator = generator;
     }
 
-    public void run(@Nonnull Sorter<String> algorithm) {
+    public void run(@Nonnull Sorter<T> algorithm) {
         Class<?> algorithmClass = algorithm.getClass();
         String name = algorithmClass.getSimpleName();
-        log.info("\n\n########### --- {} --- ###########", name);
+        log.info("########### --- {} --- ###########", name);
 
-        List<String> data = generator.generateRandomList();
+        List<T> data = generator.generateRandomList();
         int size = data.size();
         log.info("run - Sorting {} elements with {} ...", () -> format("%,d", size), () -> name);
 
         ZonedDateTime start = ZonedDateTime.now();
 
-        List<String> sortedList = algorithm.sort(data);
+        List<T> sortedList = algorithm.sort(data);
 
         ZonedDateTime end = ZonedDateTime.now();
         Duration duration = Duration.between(start, end);
 
         int sortedSize = sortedList.size();
         log.info("run - First element of sorted list: '{}'.", sortedList.get(0));
+        log.info("run - Last element of sorted list: '{}'.", sortedList.get(sortedList.size() - 1));
         log.info("run - Sorted list size: {}", () -> format("%,d", sortedSize));
-        log.info("run - Sorting duration: {}", duration);
+        log.info("run - Sorting duration: {}\n\n", duration);
     }
 
 }
