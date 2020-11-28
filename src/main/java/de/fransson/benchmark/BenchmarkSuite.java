@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 import java.util.UUID;
 
 import static java.lang.Runtime.getRuntime;
@@ -39,6 +40,11 @@ public class BenchmarkSuite<T extends Comparable<T>> {
         ListGenerator<UUID> uuidListGenerator = new ListGenerator<>(size, UUID::randomUUID);
         BenchmarkSuite<UUID> uuidSuite = new BenchmarkSuite<>("UUID", uuidListGenerator);
         uuidSuite.run();
+
+        Random random = new Random();
+        ListGenerator<Integer> integerListGenerator = new ListGenerator<>(size, random::nextInt);
+        BenchmarkSuite<Integer> integerSuite = new BenchmarkSuite<>("Integer", integerListGenerator);
+        integerSuite.run();
     }
 
     public BenchmarkSuite(@Nonnull String name, @Nonnull ListGenerator<T> listGenerator) {
